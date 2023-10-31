@@ -1,0 +1,4 @@
+driver = mysql
+connect = host=mail-db dbname=EAI_DB user=EAI_USER_DB password=EAI_PASSWORD_DB
+default_pass_scheme = SHA512-CRYPT
+password_query = SELECT email as user, password FROM users WHERE email='%u';

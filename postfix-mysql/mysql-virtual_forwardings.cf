@@ -1,0 +1,5 @@
+user = EAI_USER_DB
+password = EAI_PASSWORD_DB
+dbname = EAI_DB
+query = SELECT destination FROM forwardings WHERE source='%s'
+hosts = mail-db 

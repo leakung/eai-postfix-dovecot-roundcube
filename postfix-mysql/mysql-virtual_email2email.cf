@@ -1,0 +1,5 @@
+user = EAI_USER_DB
+password = EAI_PASSWORD_DB
+dbname = EAI_DB
+query = SELECT email FROM users WHERE email='%s'
+hosts = mail-db 
