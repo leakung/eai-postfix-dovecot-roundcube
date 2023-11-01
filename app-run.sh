@@ -46,6 +46,11 @@ postconf -P "smtps/inet/smtpd_relay_restrictions=permit_sasl_authenticated,rejec
 postconf -P "smtps/inet/milter_macro_daemon_name=ORIGINATING" && \
 postconf -M dovecot/unix="dovecot   unix  -       n       n       -       -       pipe flags=DRhu user=vmail:vmail argv=/usr/lib/dovecot/deliver -f \${sender} -d \${recipient}"
 
+postconf -M submission/inet="submission inet n - - - - smtpd" && \
+postconf -P "submission/inet/smtpd_sasl_auth_enable=yes" && \
+postconf -P "submission/inet/smtpd_tls_security_level=encrypt" && \
+postconf -P "submission/inet/smtpd_tls_auth_only=yes"
+
 # chown /home/vmail
 echo ">> Chown /home/vmail"
 chown vmail: /home/vmail

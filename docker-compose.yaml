@@ -74,8 +74,8 @@ services:
       - ROUNDCUBEMAIL_DB_PASSWORD=${RC_PASSWORD}
       - ROUNDCUBEMAIL_DEFAULT_HOST=ssl://mail-app
       - ROUNDCUBEMAIL_DEFAULT_PORT=993
-      - ROUNDCUBEMAIL_SMTP_SERVER=ssl://mail-app
-      - ROUNDCUBEMAIL_SMTP_PORT=465
+      - ROUNDCUBEMAIL_SMTP_SERVER=tls://mail-app
+      - ROUNDCUBEMAIL_SMTP_PORT=587
       - ROUNDCUBEMAIL_SKIN=elastic
     depends_on:
       mail-app:
