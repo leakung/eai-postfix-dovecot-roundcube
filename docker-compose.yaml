@@ -15,8 +15,8 @@ services:
       start_period: 5s
       start_interval: 5s
       interval: 10s
-      timeout: 5s
-      retries: 3
+      timeout: 10s
+      retries: 5 
     networks:
       - mail-network
 
@@ -50,6 +50,11 @@ services:
         condition: service_healthy
     volumes:
       - ./data/vmail:/home/vmail
+    healthcheck:
+      test: mysql ${RC_DB} --host=mail-db --user=${RC_USER} --password='${RC_PASSWORD}' --silent --execute "select 1;"
+      interval: 5s
+      timeout: 10s
+      retries: 3 
     networks:
       - mail-network
 
@@ -73,8 +78,8 @@ services:
       - ROUNDCUBEMAIL_SMTP_PORT=465
       - ROUNDCUBEMAIL_SKIN=elastic
     depends_on:
-      - mail-db
-      - mail-app 
+      mail-app:
+        condition: service_healthy 
     networks:
       - mail-network
 
