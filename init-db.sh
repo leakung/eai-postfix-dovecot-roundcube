@@ -1,3 +1,8 @@
+
+HASH_PASSWORD=$(echo $(doveadm pw -s SHA512-CRYPT -p $EMAIL_PASSWORD) |  sed -e "s/{SHA512-CRYPT}//g")
+
+DOMAIN_PUNNY=$(echo $DOMAIN_EAI | idn)
+
 mariadb --default-character-set=utf8 -h mail-db -u root -p$MARIADB_PASSWORD << MYSQL
 
 CREATE DATABASE IF NOT EXISTS $EAI_DB CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -12,8 +17,9 @@ CREATE TABLE IF NOT EXISTS users (email varchar(80) NOT NULL, password varchar(2
 INSERT IGNORE INTO domains (domain) VALUES ('$DOMAINNAME');
 INSERT IGNORE INTO domains (domain) VALUES ('$DOMAIN_EAI');
 INSERT IGNORE INTO domains (domain) VALUES ('$DOMAIN_PUNNY');
-INSERT IGNORE INTO users (email, password) VALUES ('$EMAIL_USER@$DOMAINNAME', '$EMAIL_PASSWORD');
-INSERT IGNORE INTO users (email, password) VALUES ('$EMAIL_EAI_USER@$DOMAIN_EAI', '$EMAIL_PASSWORD');
+INSERT IGNORE INTO users (email, password) VALUES ('$EMAIL_USER@$DOMAINNAME', '$HASH_PASSWORD');
+INSERT IGNORE INTO users (email, password) VALUES ('$EMAIL_EAI_USER@$DOMAIN_EAI', '$HASH_PASSWORD');
+INSERT IGNORE INTO users (email, password) VALUES ('$EMAIL_EAI_USER@$DOMAIN_PUNNY', '$HASH_PASSWORD');
 INSERT IGNORE INTO forwardings (source,destination) VALUES ('$EMAIL_EAI_USER@$DOMAIN_EAI','$EMAIL_USER@$DOMAINNAME');
 INSERT IGNORE INTO forwardings (source,destination) VALUES ('$EMAIL_EAI_USER@$DOMAIN_PUNNY','$EMAIL_USER@$DOMAINNAME');
 

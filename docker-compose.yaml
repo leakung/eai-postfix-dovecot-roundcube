@@ -12,11 +12,11 @@ services:
       - ./data/mariadb:/var/lib/mysql
     healthcheck:
       test: [ "CMD", "healthcheck.sh", "--su-mysql", "--connect", "--innodb_initialized" ]
-      start_period: 5s
-      start_interval: 5s
+      start_period: 10s
+      start_interval: 10s
       interval: 10s
       timeout: 10s
-      retries: 5 
+      retries: 3 
     networks:
       - mail-network
 
@@ -31,7 +31,6 @@ services:
         HOSTNAME: ${HOSTNAME}
         DOMAINNAME: ${DOMAINNAME}
         DOMAIN_EAI: ${DOMAIN_EAI}
-        DOMAIN_PUNNY: ${DOMAIN_PUNNY}
         EAI_DB: ${EAI_DB}
         EAI_USER_DB: ${EAI_USER_DB}
         EAI_PASSWORD_DB: ${EAI_PASSWORD_DB}
@@ -44,6 +43,7 @@ services:
     ports:
       - "25:25"
       - "465:465"
+      - "587:587"
       - "993:993"
     depends_on:
       mail-db:
@@ -52,7 +52,7 @@ services:
       - ./data/vmail:/home/vmail
     healthcheck:
       test: mysql ${RC_DB} --host=mail-db --user=${RC_USER} --password='${RC_PASSWORD}' --silent --execute "select 1;"
-      interval: 5s
+      interval: 10s
       timeout: 10s
       retries: 3 
     networks:
@@ -67,6 +67,7 @@ services:
     ports:
       - 9002:80
     environment:
+      - TZ=Asia/Bangkok
       - ROUNDCUBEMAIL_DB_TYPE=mysql
       - ROUNDCUBEMAIL_DB_HOST=mail-db
       - ROUNDCUBEMAIL_DB_NAME=${RC_DB}

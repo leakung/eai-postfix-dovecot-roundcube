@@ -5,7 +5,6 @@ ARG MARIADB_PASSWORD
 ARG HOSTNAME
 ARG DOMAINNAME
 ARG DOMAIN_EAI
-ARG DOMAIN_PUNNY
 
 ARG EAI_DB
 ARG EAI_USER_DB
@@ -24,7 +23,6 @@ ENV MARIADB_PASSWORD $MARIADB_PASSWORD
 ENV HOSTNAME $HOSTNAME
 ENV DOMAINNAME $DOMAINNAME
 ENV DOMAIN_EAI $DOMAIN_EAI
-ENV DOMAIN_PUNNY $DOMAIN_PUNNY
 
 ENV EAI_DB $EAI_DB
 ENV EAI_USER_DB $EAI_USER_DB
@@ -47,7 +45,16 @@ RUN apt update
 
 RUN apt -y install postfix postfix-mysql
 RUN apt -y install dovecot-core dovecot-mysql dovecot-imapd dovecot-pop3d dovecot-lmtpd
-RUN apt -y install mariadb-client tzdata rsyslog
+RUN apt -y install locales idn mariadb-client tzdata rsyslog
+
+RUN sed -i '/th_TH.UTF-8/s/^# //g' /etc/locale.gen && \
+	locale-gen
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US.UTF-8
+ENV LC_ALL=en_US.UTF-8
+ENV LANG=th_TH.UTF-8
+ENV LANGUAGE=th_TH.UTF-8
+ENV LC_ALL=th_TH.UTF-8
 
 RUN groupadd -g 5000 vmail
 RUN useradd -g vmail -u 5000 vmail -d /home/vmail -m
