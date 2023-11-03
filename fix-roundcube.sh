@@ -29,4 +29,4 @@ cat <<EOF >> data/www/config/config.inc.php
     ];
 EOF
 
-sed -i 's/\.replace(\/\[\^a\-z\]$\/gi\,\"\")//g' data/www/skins/elastic/ui.min.js
+sed -i 's/\.replace(\/\[\^a\-z\]$\/gi\,\"\")/.replace(\/[^ก-๛a-z]$\/gi,"")/g' data/www/skins/elastic/ui.min.js
