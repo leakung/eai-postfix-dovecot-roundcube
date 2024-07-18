@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS forwardings (source varchar(512) NOT NULL, destinatio
 
 INSERT IGNORE INTO domains (domain) VALUES ('$DOMAINNAME');
 INSERT IGNORE INTO domains (domain) VALUES ('$DOMAIN_PUNNY');
+INSERT IGNORE INTO domains (domain) VALUES ('$DOMAIN_EAI');
 
 INSERT IGNORE INTO users (email, password) VALUES ('$EMAIL_USER@$DOMAINNAME', '$HASH_PASSWORD');
 INSERT IGNORE INTO forwardings (source,destination) VALUES ('$EMAIL_EAI_USER@$DOMAIN_PUNNY', '$EMAIL_USER@$DOMAINNAME');
